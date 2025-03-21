@@ -1,0 +1,12 @@
+{
+    "realm": "TerraCollect-dev-env",
+    "auth-server-url": "https://localhost/iam/",
+    "ssl-required": "external",
+    "resource": "geoserver-client",
+    "credentials": {
+        "secret": "BlUvXi0xo91awcM9bsB2WVekp6QvYW0C"
+    },
+    "use-resource-role-mappings": true,
+    "confidential-port": 0
+}
+// role service >>> default

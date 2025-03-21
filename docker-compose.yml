@@ -1,0 +1,9 @@
+services:
+  geoserver:
+    image: ${GEOSERVER_DOCKER_IMAGE_NAME}:${GEOSERVER_VERSION}
+    container_name: "geoserver-local"
+    env_file: .env
+    volumes:
+      - "./data:/opt/geoserver_data"
+    ports:
+      - "8081:8080"
