@@ -1,5 +1,7 @@
 services:
+
   geoserver:
+    network_mode: host
     image: ${GEOSERVER_DOCKER_IMAGE_NAME}:${GEOSERVER_VERSION}
     container_name: "geoserver-local"
     env_file: .env
