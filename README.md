@@ -1,7 +1,6 @@
 ## Keycloak in Geoserver
 
-### 1 - Create a client in Keycloak with all settings:
-
+### 1 - Create a client in Keycloak with custom settings [Keycloak for Geoserver](https://docs.geoserver.org/main/en/user/community/keycloak/authentication.html);
 
 ### 2 - Run geoserver in Docker:
 
@@ -13,13 +12,13 @@ docker compose up -d
 docker ps -a
 ```
 
-### Insert container id in environment variables:
+#### Insert container id in environment variables:
 
 ```bash
 source .env
 ```
 
-### Obs.: If you are using docker make sure that the Keycloak Auth address are visible inside container;
+#### Obs.: If you are using docker make sure that the Keycloak Auth address are visible inside container;
 
 ```yml
     network_mode: host
@@ -59,7 +58,13 @@ sudo apt-get install openjdk-17-jre-headless/noble-updates
     jetty.http.port=8080 <<<<====
 ```
 
-### To rebuild:
+#### Check the available ports:
+
+```bash
+ss -tulpn
+```
+
+#### To rebuild:
 
 ```bash
 sudo rm -R /usr/share/geoserver
@@ -136,7 +141,7 @@ unzip ${OAUTH2_PLUGIN_PATH}.zip -d /usr/share/geoserver/webapps/geoserver/WEB-IN
 
 ### 6 - Get the `Keycloak Adapter Config` in the client section in keycloak admin console option `Action >>> Download Adapter Config` (Documentação desatualizada);
 
-### 7 - Get `well-known` config for Keycloak in [https://localhost/iam/realms/TerraCollect-dev-env/.well-known/openid-configuration](https://localhost/iam/realms/TerraCollect-dev-env/.well-known/openid-configuration);
+### 7 - Get `well-known` config for Keycloak in [https://localhost/iam/realms/TerraCollect-dev-env/.well-known/openid-configuration](https://localhost/iam/realms/TerraCollect-dev-env/.well-known/openid-configuration). You may have a similar response like [./openid-configuration](./geoserver-keycloak/well-known.openid-configuration.json);
 
 ### 8 - Create a new `New Authentication Filter` in authentication in geoserver security section;
 
