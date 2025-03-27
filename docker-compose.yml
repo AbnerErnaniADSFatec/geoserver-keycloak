@@ -1,12 +1,12 @@
 services:
 
   geoserver:
-    network_mode: host
+    # network_mode: host
     image: ${GEOSERVER_DOCKER_IMAGE_NAME}:${GEOSERVER_VERSION}
     container_name: "geoserver-local"
     env_file: .env
     volumes:
       - "./data:/opt/geoserver_data"
+      - "./config:/opt/config"
     ports:
-      - "127.0.0.1:8181:8080"
-      - "127.0.0.1:8443:8443"
+      - "8081:8080"
