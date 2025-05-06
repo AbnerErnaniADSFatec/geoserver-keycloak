@@ -39,16 +39,18 @@ sudo chown -R ${USER} /usr/share/geoserver/
 #### Start GeoServer by changing into the directory `geoserver/bin` and executing the startup.sh script:
 
 ```bash
-sh /usr/share/geoserver/bin/startup.sh
+GEOSERVER_HOME=/usr/share/geoserver/ sh /usr/share/geoserver/bin/startup.sh
 ```
 
-#### Obs.: Install Java if requested:
+#### **Obs.:** Set the geoserver home with `GEOSERVER_HOME=/usr/share/geoserver/` before the command.
+
+#### **Obs.:** Install Java if requested:
 
 ```bash
 sudo apt-get install openjdk-17-jre-headless/noble-updates
 ```
 
-#### Change the port before `startup` with `nano /usr/share/geoserver/start.ini`:
+#### **Obs.:** Change the port before `startup` with `nano /usr/share/geoserver/start.ini`:
 
 ```txt
     ## Connector host/address to bind to
@@ -58,13 +60,13 @@ sudo apt-get install openjdk-17-jre-headless/noble-updates
     jetty.http.port=8080 <<<<====
 ```
 
-#### Check the available ports:
+#### **Obs.:** Check the available ports:
 
 ```bash
 ss -tulpn
 ```
 
-#### To rebuild:
+#### To rebuild geoserver:
 
 ```bash
 sudo rm -R /usr/share/geoserver
@@ -82,9 +84,23 @@ sudo chown -R ${USER} /usr/share/geoserver/
 
 #### A. You can download extensions in [https://geoserver.org/release/2.26.2/](https://geoserver.org/release/2.26.2/) or [https://build.geoserver.org/geoserver/main/community-latest/](https://build.geoserver.org/geoserver/main/community-latest/) using  2.26.1 as example, or findin the selected extension in `Security >>> Key authentication`;
 
-#### B. Download Keycloak Authentication [https://build.geoserver.org/geoserver/main/community-latest/geoserver-2.27-SNAPSHOT-sec-keycloak-plugin.zip](https://build.geoserver.org/geoserver/main/community-latest/geoserver-2.27-SNAPSHOT-sec-keycloak-plugin.zip);
+#### B. Download AuthKey Plugin [https://build.geoserver.org/geoserver/2.26.x/ext-latest/geoserver-2.26-SNAPSHOT-authkey-plugin.zip](https://build.geoserver.org/geoserver/2.26.x/ext-latest/geoserver-2.26-SNAPSHOT-authkey-plugin.zip).
 
-#### C. Download OAuth2 Plugin [https://build.geoserver.org/geoserver/2.26.x/community-latest/geoserver-2.26-SNAPSHOT-sec-oauth2-openid-connect-plugin.zip](https://build.geoserver.org/geoserver/2.19.x/community-latest/geoserver-2.26-SNAPSHOT-sec-oauth2-openid-connect-plugin.zip).
+```bash
+wget https://build.geoserver.org/geoserver/2.26.x/ext-latest/geoserver-2.26-SNAPSHOT-authkey-plugin.zip
+```
+
+#### C. Download Keycloak Authentication [https://build.geoserver.org/geoserver/2.26.x/community-latest/geoserver-2.26-SNAPSHOT-sec-keycloak-plugin.zip](https://build.geoserver.org/geoserver/2.26.x/community-latest/geoserver-2.26-SNAPSHOT-sec-keycloak-plugin.zip);
+
+```bash
+wget https://build.geoserver.org/geoserver/2.26.x/community-latest/geoserver-2.26-SNAPSHOT-sec-keycloak-plugin.zip
+```
+
+#### D. Download OAuth2 Plugin [https://build.geoserver.org/geoserver/2.26.x/community-latest/geoserver-2.26-SNAPSHOT-sec-oauth2-openid-connect-plugin.zip](https://build.geoserver.org/geoserver/2.19.x/community-latest/geoserver-2.26-SNAPSHOT-sec-oauth2-openid-connect-plugin.zip).
+
+```bash
+wget https://build.geoserver.org/geoserver/2.26.x/community-latest/geoserver-2.26-SNAPSHOT-sec-oauth2-openid-connect-plugin.zip
+```
 
 ### 5 - Unzip the files and move to `/WEB-INF/lib` in geoserver config files:
 
@@ -140,6 +156,8 @@ unzip ${OAUTH2_PLUGIN_PATH}.zip -d /usr/share/geoserver/webapps/geoserver/WEB-IN
 ```
 
 ### 6 - Get the `Keycloak Adapter Config` in the client section in keycloak admin console option `Action >>> Download Adapter Config` (Documentação desatualizada);
+
+### **Obs.:** The usage of Keycloak adapters is deprecated since 2023.
 
 ### 7 - Get `well-known` config for Keycloak in [https://localhost/iam/realms/TerraCollect-dev-env/.well-known/openid-configuration](https://localhost/iam/realms/TerraCollect-dev-env/.well-known/openid-configuration). You may have a similar response like [./openid-configuration](./geoserver-keycloak/well-known.openid-configuration.json);
 
