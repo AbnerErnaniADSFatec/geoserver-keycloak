@@ -71,5 +71,3 @@ nbbuild
 # Plugins and installation paths
 
 data/
-*geoserver*/
-*bin.zip
