@@ -3,10 +3,51 @@ services:
   geoserver:
     # network_mode: host
     image: ${GEOSERVER_DOCKER_IMAGE_NAME}:${GEOSERVER_VERSION}
-    container_name: "geoserver-local"
+    container_name: "geoserver-keycloak"
     env_file: .env
     volumes:
       - "./data:/opt/geoserver_data"
       - "./config:/opt/config"
+      - "./config/web.xml:/usr/local/tomcat/webapps/geoserver/WEB-INF/web.xml"
     ports:
       - "8081:8080"
+    networks:
+      - keycloak_net
+
+  keycloak:
+    # network_mode: host
+    image: quay.io/keycloak/keycloak:22.0
+    container_name: "keycloak-geoserver"
+    restart: "unless-stopped"
+    command: ["start-dev"]
+    env_file: .env
+    ports:
+      - "8080:8080"
+    depends_on:
+      - keycloak_db
+    networks:
+      - keycloak_net
+
+  keycloak_db:
+    image: "postgis/postgis:16-3.4"
+    container_name: "keycloak-geoserver-db"
+    restart: unless-stopped
+    volumes:
+      - ./volumes/db:/var/lib/postgresql/data
+      - ./volumes/db-init/10-create-db-keycloak.sql:/docker-entrypoint-initdb.d/10-create-db-keycloak.sql
+    environment:
+      - "POSTGRES_PASSWORD=postgres"
+    ports:
+      - "5434:5432"
+    healthcheck:
+      test: ["CMD", "psql", "-U", "postgres", "-d", "keycloak", "-c", "SELECT 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - keycloak_net
+
+networks:
+  keycloak_net:
+    name: keycloak_net
+    driver: bridge

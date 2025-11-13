@@ -129,6 +129,7 @@ unzip geoserver-2.26-SNAPSHOT-sec-oauth2-openid-connect-plugin.zip -d geoserver-
 ```bash
 docker cp geoserver-2.26-SNAPSHOT-sec-oauth2-openid-connect-plugin/. ${CONTAINER_ID}:/usr/local/tomcat/webapps/geoserver/WEB-INF/lib/
 ```
+
 #### Restart the docker container or use `systemctl` comand to restart geoserver service and load extensions and plugins for geoserver:
 
 ```bash

@@ -69,4 +69,6 @@ nbbuild
 
 # Plugins and installation paths
 
+certs/
 data/
+volumes/db/
