@@ -8,9 +8,10 @@ services:
     volumes:
       - "./data:/opt/geoserver_data"
       - "./config:/opt/config"
-      - "./config/web.xml:/usr/local/tomcat/webapps/geoserver/WEB-INF/web.xml"
     ports:
       - "8081:8080"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     networks:
       - keycloak_net
 
