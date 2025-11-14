@@ -130,21 +130,6 @@ unzip geoserver-2.26-SNAPSHOT-sec-oauth2-openid-connect-plugin.zip -d geoserver-
 docker cp geoserver-2.26-SNAPSHOT-sec-oauth2-openid-connect-plugin/. ${CONTAINER_ID}:/usr/local/tomcat/webapps/geoserver/WEB-INF/lib/
 ```
 
-### Enable the use of `http` when using local docker services:
-
-#### `./config/web.xml`:
-
-```xml
-    <context-param>
-        <param-name>geoserver.geoServerOptions</param-name>
-        <param-value>-Dgeoserver.oauth2.allowHttp=true</param-value>
-    </context-param>
-```
-
-```bash
-docker cp ./config/web.xml ${CONTAINER_ID}:/usr/local/tomcat/webapps/geoserver/WEB-INF/
-```
-
 #### Restart the docker container or use `systemctl` comand to restart geoserver service and load extensions and plugins for geoserver:
 
 ```bash
@@ -173,21 +158,29 @@ unzip geoserver-2.26-SNAPSHOT-sec-oauth2-openid-connect-plugin.zip -d /usr/share
 
 ### 6 - Go to the `Authentication Filters` and create a new `New Authentication Filter` in authentication in geoserver security section.
 
+#### Enable the use of `http` when using local docker services (`./config/web.xml`):
+
+```xml
+    <context-param>
+        <param-name>geoserver.geoServerOptions</param-name>
+        <param-value>-Dgeoserver.oauth2.allowHttp=true</param-value>
+    </context-param>
+```
+
+```bash
+docker cp ./config/web.xml ${CONTAINER_ID}:/usr/local/tomcat/webapps/geoserver/WEB-INF/
+```
+
 > **_NOTE:_**  Some import notes:
 >
 > Get `well-known` config for Keycloak in [https://localhost/iam/realms/inpe-local/.well-known/openid-configuration](https://localhost/iam/realms/TerraCollect-dev-env/.well-known/openid-configuration). You may have a similar response like [./openid-configuration](./well-known.openid-configuration.json);
->
-> Get the `Keycloak Adapter Config` in the client section in keycloak admin console option `Action >>> Download Adapter Config`, but the usage of Keycloak adapters is deprecated since 2023.
->
-> You must add this `Authentication Filter` to high position in `web` option at `Filter Chain`.
-
-> **_NOTE:_**  Some import notes:
 >
 > Get `well-known` config for Keycloak in [http://localhost:8080/realms/inpe-local/.well-known/openid-configuration](http://localhost:8080/realms/TerraCollect-dev-env/.well-known/openid-configuration) when using local environment without nginx proxy. You may have a similar response like [./openid-configuration](./well-known.openid-configuration.json);
 >
 > Get the `Keycloak Adapter Config` in the client section in keycloak admin console option `Action >>> Download Adapter Config`, but the usage of Keycloak adapters is deprecated since 2023.
 >
 > You must add this `Authentication Filter` to high position in `web` option at `Filter Chain`.
+>
 
 ### 7 - Roles Mangement when using `OAuth2 Openid Authentication` in geoserver:
 
